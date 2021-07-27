@@ -1,0 +1,35 @@
+name: Bootcamp-2020-class2-baseApp
+
+on:
+
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+ 
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Install Node
+        uses: actions/setup-node@v2-beta
+        with:
+          version: 14
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Create build
+        run: npm run build
+        
+      - name: Install surge
+        run: npm install -g surge
+        
+      - name: Deploy on surge
+        run: surge ./build http://base_app_hani.surge.sh/ --token ${{ secrets.SURGE_TOKEN }}
